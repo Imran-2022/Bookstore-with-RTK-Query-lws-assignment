@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useAddBookMutation } from '../features/api/apiSlice';
+import { filterByType } from '../features/filter/filterSlice';
 
 const AddBookForm = () => {
-
+    const dispatch=useDispatch();
     const [addBook, { isLoading, isSuccess, isError }] = useAddBookMutation();
     const navigate=useNavigate()
     const [name, setName] = useState("");
@@ -19,7 +21,10 @@ const AddBookForm = () => {
     }
     
     useEffect(() => {
-        if (isSuccess) navigate("/");
+        if (isSuccess){
+            navigate("/")
+            dispatch(filterByType('all'));
+        };
     }, [isSuccess, navigate]);
 
 
